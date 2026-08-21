@@ -5,7 +5,8 @@ import TodoList from './components/TodoList';
 import { useState, useEffect } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 
-const API_URL = 'http://localhost:5000/api/todos';
+// Automatically uses .env locally or Vercel's environment variable in production
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api/todos';
 function App() {
   
   const [todos, setTodos] = useState([]);

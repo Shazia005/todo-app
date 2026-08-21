@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 
 // Uses environment variable in production, falls back to local server if undefined
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api/todos';
+const API_URL = import.meta.env.VITE_API_URL;
 function App() {
   
   const [todos, setTodos] = useState([]);
@@ -18,7 +18,7 @@ fetchTodos();
 
 const fetchTodos = async () => {
     try {
-      const response = await fetch(API_URL);
+      const response = await fetch(`${API_URL}/api/todos`);
       if (!response.ok) throw new Error('Failed to fetch tasks');
       const data = await response.json();
       setTodos(data);
@@ -31,7 +31,7 @@ const fetchTodos = async () => {
   // 4. ADD TODO (POST)
   const addTodo = async (text) => {
     try {
-      const response = await fetch(API_URL, {
+      const response = await fetch(`${API_URL}/api/todos`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text }),
@@ -51,7 +51,7 @@ const fetchTodos = async () => {
   // 5. UPDATE TODO TEXT (PUT)
   const updateTodo = async (id, newText) => {
     try {
-      const response = await fetch(`${API_URL}/${id}`, {
+      const response = await fetch(`${API_URL}/api/todos/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: newText }),
@@ -76,7 +76,7 @@ const fetchTodos = async () => {
     if (!todoToToggle) return;
 
     try {
-      const response = await fetch(`${API_URL}/${id}`, {
+      const response = await fetch(`${API_URL}/api/todos/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ completed: !todoToToggle.completed }),
@@ -101,7 +101,7 @@ const fetchTodos = async () => {
   // 7. DELETE TODO (DELETE)
   const deleteTodo = async (id) => {
     try {
-      const response = await fetch(`${API_URL}/${id}`, {
+      const response = await fetch(`${API_URL}/api/todos/${id}`, {
         method: 'DELETE',
       });
 
